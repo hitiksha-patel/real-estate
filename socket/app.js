@@ -1,11 +1,11 @@
-import { Server, Socket } from "socket.io";
 import { config } from "dotenv";
+import { Server } from "socket.io";
 
 config();
 
 const io = new Server({
   cors: {
-    origin: process.env.ORIGIN_URL,
+    origin: process.env.SOCKET_CORS_ORIGIN,
   },
 });
 
@@ -38,4 +38,4 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(process.env.PORT);
+io.listen(4000);
