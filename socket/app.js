@@ -1,11 +1,9 @@
 import { config } from "dotenv";
 import { Server } from "socket.io";
-import { createServer } from "http";
 
 config();
 
-const server = createServer();
-const io = new Server(server, {
+const io = new Server({
   cors: {
     origin: process.env.SOCKET_CORS_ORIGIN,
   },
@@ -26,7 +24,6 @@ const removeUser = (socketId) => {
 const getUser = (userId) => {
   return onlineUser.find((user) => user.userId === userId);
 };
-
 io.on("connection", (socket) => {
   socket.on("newUser", (userId) => {
     addUser(userId, socket.id);
@@ -36,11 +33,9 @@ io.on("connection", (socket) => {
     const receiver = getUser(receiverId);
     io.to(receiver.socketId).emit("getMessage", data);
   });
-
   socket.on("disconnect", () => {
     removeUser(socket.id);
   });
 });
 
-server.listen();
-export default server;
+io.listen(4000);

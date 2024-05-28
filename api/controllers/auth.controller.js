@@ -14,7 +14,7 @@ export const register = async (req, res) => {
         password: hashedPassword,
       },
     });
-    res.status(201).json({message:"User created successfully"});
+    res.status(201).json({ message: "User created successfully" });
   } catch (err) {
     console.log("Error creating user:", err);
     res.status(500).json({ message: "Failed to create user" });
@@ -45,12 +45,13 @@ export const login = async (req, res) => {
       { expiresIn: age }
     );
 
-    const {password: userPassword, ...userInfo} = user
+    const { password: userPassword, ...userInfo } = user;
     res
       .cookie("token", token, {
         httpOnly: true,
-        // secure: true,
+        secure: true,
         maxAge: age,
+        sameSite: "None", // Needed for cross-site cookies
       })
       .status(200)
       .json(userInfo);
@@ -61,5 +62,5 @@ export const login = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("token").status(200).json({message: "Logout successful" });
+  res.clearCookie("token").status(200).json({ message: "Logout successful" });
 };
