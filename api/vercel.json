@@ -1,3 +1,26 @@
+// {
+//   "version": 2,
+//   "builds": [
+//     {
+//       "src": "app.js",
+//       "use": "@vercel/node",
+//       "config": {
+//         "includeFiles": ["prisma/schema.prisma", "node_modules/.prisma/**/*"]
+//       }
+//     },
+//     {
+//       "src": "client/package.json",
+//       "use": "@vercel/static-build",
+//       "config": { "distDir": "client/build" }
+//     }
+//   ],
+//   "routes": [
+//     {
+//       "src": "/(.*)",
+//       "dest": "app.js"
+//     }
+//   ]
+// }
 {
   "version": 2,
   "builds": [
@@ -16,8 +39,12 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/api/(.*)",
       "dest": "app.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/build/index.html"
     }
   ]
 }
